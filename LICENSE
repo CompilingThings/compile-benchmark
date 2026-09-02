@@ -1,0 +1,58 @@
+CompilingThings Benchmark Evaluation Licence v1.0
+=================================================
+
+Copyright © 2026 CompilingThings. All rights reserved.
+
+SCOPE. The grant below covers the published benchmark files: prompts.jsonl,
+per_item_results.jsonl and serving_template.json.
+
+The remaining files in this release - README.md, publication_metadata.json,
+PROJECTION_REPORT.json, verify_public_release.py, SHA256SUMS.txt, CITATION.cff,
+.gitattributes and this LICENSE - describe and verify the release. They may be
+reproduced and quoted for the purpose of using, checking or citing this
+benchmark, including in published results that disagree with ours, and
+verify_public_release.py may be run as-is to verify a copy of this release.
+That permission covers those files only and grants nothing over the benchmark
+data, which is governed by the terms below.
+
+Nothing here grants any right to material that is not in this release.
+
+YOU MAY:
+  - run the 184 published prompts against any model.
+  - implement and use the published scoring contract.
+  - publish and compare benchmark results, including results that disagree with ours.
+  - cite the benchmark and the release identifier.
+
+YOU MAY NOT:
+  - use the prompts for training, fine-tuning, continued pretraining, distillation, or reinforcement learning.
+  - incorporate the prompts or result rows into another dataset.
+  - create or sell derivative datasets.
+  - claim any right to the private training corpus.
+  - represent the benchmark as your own work.
+  - treat this grant as extending to future releases.
+
+NO OTHER RIGHTS ARE GRANTED. Nothing here grants any right to the private
+training corpus, the generated MQL5 outputs, the model weights, the production
+tooling, or any unreleased material. This grant does not extend to future
+releases or later versions of this benchmark.
+
+Commercial licences, evaluation access, research collaboration and partnership
+are arranged individually under written agreement. Enquiries are welcome via a
+discussion on the Hugging Face repository.
+
+Hosting-platform terms operate separately from this licence and may grant
+platform users rights this licence does not.
+
+METAQUOTES NOTICE
+-----------------
+MQL5® and MetaTrader 5® are registered trademarks of MetaQuotes Ltd.
+
+CompilingThings is an independent project. No affiliation, sponsorship, certification, endorsement, or approval by MetaQuotes Ltd. is claimed.
+
+The benchmark prompts published in this release were produced by CompilingThings' own generators and are owned by CompilingThings. No model-generated MQL5 source or other model outputs are distributed. No ownership of the MQL5 language, the MetaTrader platform, MetaEditor, or MetaQuotes technology is claimed.
+
+Compilation validation was performed using the MetaQuotes Language Compiler supplied with MetaEditor. The compiler is used solely as the MQL5® compilation and validation instrument.
+
+This release does not distribute MetaTrader 5®, MetaEditor, the MetaQuotes Language Compiler, EX5 protection technology, MetaQuotes documentation, or other MetaQuotes-owned software or proprietary materials.
+
+All MetaQuotes trademarks and MetaQuotes-owned technology remain the property of MetaQuotes Ltd.

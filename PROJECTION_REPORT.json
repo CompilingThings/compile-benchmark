@@ -1,0 +1,117 @@
+{
+  "generated_from_evidence_manifest_sha256": "a3ecb53728523005648b995871b8389f40cfa997a45b7f58935e9cecc335b936",
+  "generated_from_evidence_manifest_note": "sha256 of the retained evidence package's checksum manifest file, the same value publication_metadata.json publishes as evidence_manifest_sha256. The evidence remains private; the hash is a commitment, not a means of independent verification.",
+  "membership_source_sha256": "9f1a271e664f895d02afea0113ca03db16fdf991dfac2f9386ab95263f624c50",
+  "membership_source_note": "sha256 of the sealed point-estimate record the clean-184 membership was read from; the record itself is not distributed",
+  "n_items": 184,
+  "n_public_rows": 552,
+  "rows_per_arm": {
+    "base": 184,
+    "tuned": 184,
+    "frontier": 184
+  },
+  "arm_derivation": "from directory name - the row's own `arm` field is withheld",
+  "internal_arm_field_observed": [
+    "base: internal arm field = ['A']",
+    "tuned: internal arm field = ['A']",
+    "frontier: internal arm field = ['C']"
+  ],
+  "item_id_scheme": "Opaque. item_id is a stable public identifier used to join prompts and result rows; it carries none of the item's name.",
+  "ea_name_not_in_rows_because": "The rows key on item_id so that the row schema does not depend on the corpus's naming convention. This is a schema choice, not anonymisation: every published prompt carries a `// NAME:` line holding that item's original name, so all 184 names are recoverable from this release.",
+  "allow_listed_fields": [
+    "item_id",
+    "verdict_headline",
+    "verdict_strict",
+    "bucket",
+    "ex5_exists",
+    "errors",
+    "warnings",
+    "result_line_errors",
+    "result_line_warnings",
+    "compile_infra_reason",
+    "generation_error",
+    "positive_control_errors",
+    "positive_control_warnings",
+    "truncated",
+    "finish_reason",
+    "n_fenced_blocks",
+    "used_block_index",
+    "fence_unterminated",
+    "used_block_unterminated",
+    "extractor_version",
+    "harness_version",
+    "seed",
+    "seed_applied",
+    "temperature",
+    "temperature_applied",
+    "max_new_tokens",
+    "quantisation",
+    "quantisation_mismatch",
+    "prompt_sha256_public",
+    "prompt_sha256",
+    "mq5_sha256",
+    "ex5_sha256"
+  ],
+  "version_field_definitions": {
+    "harness_version": "identifies the evaluation harness that ran the arm and wrote the row",
+    "extractor_version": "identifies the code-block extraction rule applied to the model response before compilation"
+  },
+  "withheld_fields": [
+    "adapter_path",
+    "adapter_sha256",
+    "base_model_sha256",
+    "category",
+    "compile_log_path",
+    "compile_log_raw_path",
+    "compile_log_raw_sha256",
+    "compile_log_sha256",
+    "compile_stem",
+    "ea_name",
+    "elapsed_seconds",
+    "ex5_path",
+    "generated_code_path",
+    "generated_code_sha256",
+    "manifest_selection_sha256",
+    "manifest_sha256",
+    "metaeditor_build",
+    "metaeditor_path",
+    "metaeditor_sha256",
+    "metaeditor_size_bytes",
+    "model_id",
+    "mq5_path",
+    "source_sha256",
+    "system_prompt_sha256",
+    "usage"
+  ],
+  "replaced_fields": {
+    "arm": "The sealed rows' own `arm` field is dropped, not published: it reads \"A\" on both local arms and discriminates nothing. The `arm` on every public row is a replacement, derived from the source directory the sealed rows came from. Values: base, tuned, frontier."
+  },
+  "hash_definitions": {
+    "prompt_sha256_public": "sha256 of the UTF-8 encoding of the prompt exactly as published in prompts.jsonl",
+    "prompt_sha256": "base and tuned rows: sha256 of the UTF-8 encoding of the rendered serving template in serving_template.json. frontier rows: sha256 of the UTF-8 encoding of the canonical system+user rendering (the system prompt, two newlines, the prompt), because the vendor API takes the two as separate fields and the local template cannot be submitted to it",
+    "verified_at_build": "recomputed for all published rows under each arm's rendering rule; the build refuses to write if any disagrees"
+  },
+  "outputs": {
+    "per_item_results.jsonl": {
+      "rows": 552,
+      "sha256": "3584aefb4f4226e9ba9ae7453c274eebab6f30b62d0dd89a23f41202c6ec070d",
+      "distribution": "PUBLIC"
+    },
+    "prompts.jsonl": {
+      "rows": 184,
+      "sha256": "d58391038d39b22d1865e5d874764201f65918fbf92fe837a465f58daee7cfa7",
+      "distribution": "PUBLIC"
+    },
+    "serving_template.json": {
+      "sha256": "979346bc6c0bfee309188be88a5f1611882344ebd44d7e9796066068cd004541",
+      "distribution": "PUBLIC"
+    }
+  },
+  "private_outputs": {
+    "item_id_mapping.jsonl": {
+      "rows": 184,
+      "sha256": "30e9853232c8239e06206e2e9357b57fd9a6482db9583a775d550b134a031164",
+      "distribution": "PRIVATE - not distributed; written agreement only"
+    }
+  }
+}

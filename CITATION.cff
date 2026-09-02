@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: If you use this benchmark, cite it as below.
+title: CompilingThings Compile Benchmark for MQL5®
+type: dataset
+authors:
+  - name: CompilingThings
+version: 1.0.0
+date-released: 2026-09-02
+identifiers:
+  - type: other
+    value: CompilingThings/compile-benchmark-v1.0.0
+    description: Release identifier.
+abstract: >-
+  A paired three-arm benchmark of whether generated MQL5® source compiles. It
+  publishes 184 prompts, the serving template and the system prompt, and
+  per-item results for a base model, a fine-tuned model and a frontier model
+  over the same items.
+  Released under the CompilingThings Benchmark Evaluation Licence v1.0; see the LICENSE file for terms.
+  MQL5® and MetaTrader 5® are registered trademarks of MetaQuotes Ltd.
+  CompilingThings is an independent project. No affiliation, sponsorship, certification, endorsement, or approval by MetaQuotes Ltd. is claimed.

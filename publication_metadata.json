@@ -1,0 +1,613 @@
+{
+  "record_type": "publication_metadata",
+  "record_version": "1.0.0",
+  "evidence_manifest_sha256": "a3ecb53728523005648b995871b8389f40cfa997a45b7f58935e9cecc335b936",
+  "evidence_manifest_note": "SHA-256 of the checksum manifest of the retained evidence package behind this release. The evidence remains private; this hash is a commitment to its contents, not a means of independent verification.",
+  "release_id": "CompilingThings/compile-benchmark-v1.0.0",
+  "release_title": "CompilingThings Compile Benchmark for MQL5\u00ae",
+  "release_repo_slug": "compile-benchmark",
+  "metaquotes": {
+    "trademark_attribution": "MQL5\u00ae and MetaTrader 5\u00ae are registered trademarks of MetaQuotes Ltd.",
+    "no_endorsement": "CompilingThings is an independent project. No affiliation, sponsorship, certification, endorsement, or approval by MetaQuotes Ltd. is claimed.",
+    "compiler_use": "Compilation validation was performed using the MetaQuotes Language Compiler supplied with MetaEditor. The compiler is used solely as the MQL5\u00ae compilation and validation instrument.",
+    "no_redistribution": "This release does not distribute MetaTrader 5\u00ae, MetaEditor, the MetaQuotes Language Compiler, EX5 protection technology, MetaQuotes documentation, or other MetaQuotes-owned software or proprietary materials.",
+    "source_ownership": "The benchmark prompts published in this release were produced by CompilingThings' own generators and are owned by CompilingThings. No model-generated MQL5 source or other model outputs are distributed. No ownership of the MQL5 language, the MetaTrader platform, MetaEditor, or MetaQuotes technology is claimed.",
+    "marks_remain": "All MetaQuotes trademarks and MetaQuotes-owned technology remain the property of MetaQuotes Ltd."
+  },
+  "item_naming": {
+    "item_id_purpose": "item_id is a stable public identifier used to join prompts and result rows.",
+    "names_are_recoverable": "The original item name of every published item is recoverable: each prompt contains a `// NAME:` line, because that line was part of the prompt the models were given. Publishing the prompts as evaluated therefore publishes the names.",
+    "why_not_removed": "Removing the names would make the published prompt differ from the evaluated prompt. Every hash in this release, and the claim that a reader is running the benchmark we ran, depends on those being the same bytes. The names are published rather than the benchmark being weakened.",
+    "what_this_discloses": "The names disclose the corpus naming scheme, indicator families, parameter conventions and versioning for these 184 items. The corpus itself, and the names of every item not in this release, remain undistributed."
+  },
+  "positive_control": {
+    "what_it_is": "Before an arm is scored, two fixtures are compiled. One is known to produce a compiler error. One is known to produce a compiler warning and still build.",
+    "pass_condition": "The error fixture must report at least one error. The warning fixture must report at least one warning and must score as a headline pass and a strict failure - the one outcome that tells the two metrics apart.",
+    "on_failure": "The harness raises and writes no rows for that arm. A scored arm is therefore an arm whose control passed; there is no run in which the control failed and results were kept anyway.",
+    "why_every_row_reads_1_and_1": "The recorded counts come from the fixtures, not from the evaluated item, so they are the same on every row of an arm. A row reading 1 and 1 means the control passed for that arm. It is not a defect in that item.",
+    "what_it_establishes": "That the compiler and the log scorer could still see an error and a warning during this run. It says nothing about any individual item's verdict."
+  },
+  "serving": {
+    "scope": "The two local arms. The frontier arm's serving is described under models.frontier.",
+    "engine": "Hugging Face transformers, AutoModelForCausalLM.from_pretrained, generating with model.generate",
+    "decoding": "Greedy. do_sample=False and top_p=1.0.",
+    "temperature_note": "Both local arms record temperature 0.0 and temperature_applied UNSUPPORTED. Greedy decoding does not consume a temperature, so the requested value was recorded and had no effect. This is why the field reads UNSUPPORTED rather than APPLIED.",
+    "seed": "torch.manual_seed is set per generation. Recorded as seed_applied APPLIED.",
+    "compute_dtype": "bfloat16, passed as torch_dtype. No quantisation was applied at load time for either local arm.",
+    "max_new_tokens": 8192,
+    "library_versions_not_established": "The transformers, torch and tokenizer library versions in force during the evaluation run were not recorded in the run parameters and are not established. The merge-time environment is recorded, but that was a different process.",
+    "evaluation_hardware": "Both local arms were generated on one AMD Radeon AI PRO R9700 (RDNA 4, gfx1201) under ROCm, in an AMD Ryzen 9 7950X3D host with 64 GB of system memory.",
+    "hardware_note": "The device is not recorded in the run parameters; it is stated here from the evaluation host's configuration. An earlier version of this note inferred CPU execution from the per-item timing alone, which was wrong.",
+    "compiler_build": 5836,
+    "compiler_build_note": "All three arms compiled against the same compiler build. The build number is published; the compiler binary is not distributed and is not ours to distribute."
+  },
+  "attested_not_verifiable": {
+    "statement": "The following are author attestations. They rely on undistributed evidence and cannot be verified from this package.",
+    "claims": [
+      "The per-item verdicts are the compiler outcomes we observed. The generated MQL5, the compiler logs and the compiler binary are not distributed, so a reader can recompute the statistics from our rows but cannot confirm the rows against the artifacts that produced them.",
+      "The base model identity at the pinned revision.",
+      "The tuned arm's adapter hash, epoch, global step, merge tool, merge settings and merged-weight hash.",
+      "The determinism result for the two historical merges.",
+      "The decontamination collision counts, which are measured against a corpus that is not distributed.",
+      "That the evaluation set was frozen at seed 42 before any result was seen and was not redrawn.",
+      "Everything stated about how the harness behaves: that the positive control aborts an arm rather than writing rows, that the seed is set per generation, that extraction and scoring ran identically on all three arms, and that the scoring rules published here are the rules the harness applied. The harness is not distributed.",
+      "The full-300 comparison. Only the clean-184 rows are published, so the full-300 figures and the change between the two strata cannot be recomputed from this package.",
+      "Which model produced which arm. The public `arm` is derived from the source directory of the sealed rows; the two local arms' own sealed arm field reads the same value on both and discriminates nothing. We bound the tuned rows to the merged artifact internally by byte-identity to the run directory that served it, but a reader holding only this release cannot check that attribution."
+    ],
+    "what_is_verifiable_instead": "Everything computed from the published rows: both prompt hashes, the pairing, all three rates, the differences, the confidence intervals, both McNemar results and both paired tables. A reader can also run the 184 prompts against any model and compare, which is the comparison the release exists to enable."
+  },
+  "licence_scope": {
+    "licensed_under_the_benchmark_evaluation_licence": [
+      "prompts.jsonl",
+      "per_item_results.jsonl",
+      "serving_template.json"
+    ],
+    "supporting_files": [
+      "README.md",
+      "LICENSE",
+      "CITATION.cff",
+      "SHA256SUMS.txt",
+      ".gitattributes",
+      "publication_metadata.json",
+      "PROJECTION_REPORT.json",
+      "verify_public_release.py"
+    ],
+    "supporting_files_terms": "The supporting files describe and verify the release. They may be reproduced and quoted for the purpose of using, checking or citing this benchmark, including in published results that disagree with ours, and verify_public_release.py may be run as-is to verify a copy of this release. They carry no grant over the benchmark data itself, which is covered by the licence above.",
+    "note": "Being listed as published means a file ships in the release. It does not by itself say which terms cover it; this block does."
+  },
+  "error_counts": {
+    "errors": "The number of individual error diagnostics printed in the compile log, counted line by line.",
+    "result_line_errors": "The compiler's own final tally, read from its `Result: N errors, M warnings` line.",
+    "why_they_differ": "The compiler stops printing individual diagnostics past a limit while its final tally keeps counting. A log can list 99 errors by line and end with `Result: 103 errors`. Both numbers are recorded and neither is corrected against the other.",
+    "measured_disagreement": "They disagree on 12 of the 368 local-arm rows, all in the base arm, all at 99 or 100 printed diagnostics.",
+    "effect_on_the_verdict": "None. A verdict turns on whether there were any errors at all, and both counts are far above zero on every row where they differ."
+  },
+  "bootstrap_caveat": "The bootstrap interval is reported for completeness and is not independently reproducible from this package: the resampling implementation, its RNG and the percentile convention are not published, and a seed alone does not determine identical endpoints across implementations. The Wilson and Newcombe intervals, the McNemar result and both rates do recompute from the published rows, and those are the intervals the headline rests on.",
+  "scoring": {
+    "verdicts": {
+      "verdict_headline": "TRUE when the compile log reports zero errors AND the .ex5 artifact was produced. This is the headline metric.",
+      "verdict_strict": "TRUE when the compile log reports zero errors AND zero warnings AND the .ex5 artifact was produced.",
+      "note": "Both are computed for every item and published side by side. Neither is derived from the other."
+    },
+    "buckets": {
+      "values": [
+        "compile-pass",
+        "compile-fail",
+        "TRUNCATED",
+        "INFRASTRUCTURE-FAILURE"
+      ],
+      "precedence": "Applied in this order, and the order is load-bearing: a generation error gives INFRASTRUCTURE-FAILURE; else truncation gives TRUNCATED; else a compile-side infrastructure reason gives INFRASTRUCTURE-FAILURE; else compile-pass if verdict_headline is true, otherwise compile-fail.",
+      "why_that_order": "A generation-side failure means nothing about the model was measured. Truncation is the harness's token cap, not the model's failure. A compile-side infrastructure failure is ours too. Only after all three are excluded does a pass or fail describe the model.",
+      "excluded_from_the_denominator": [
+        "TRUNCATED",
+        "INFRASTRUCTURE-FAILURE"
+      ]
+    },
+    "extraction": {
+      "version": "three_way.v4",
+      "step_1": "Truncate the response at the first serving end-token found, if any: <|end|>, <|endoftext|>, </s>, <|im_end|>.",
+      "step_2": "Find every fenced code block, accepting both CommonMark fence characters (``` and ~~~). An unterminated final fence still counts as a block, because that is what a truncated generation looks like and dropping it would hide the truncation.",
+      "step_3": "If there are no fenced blocks, use the whole response, stripped.",
+      "step_4": "Otherwise take the first block that defines a real MQL5 event handler - a recognised handler name with a matching return type and parameter signature. If no block defines one, take the first block. The chosen index is published per row as used_block_index, beside n_fenced_blocks.",
+      "why_the_entry_point_rule": "First-wins handed the compiler whatever a response opened with. Measured against the live compiler on an identical EA body: a leading plan block scored 2 errors and a leading block of helper includes scored 1, each published as the model's own compile failure, while the same EA sent alone passed. The cost is asymmetric - only arms that write prose and plans pay it - so the rule exists to stop the extractor manufacturing failures.",
+      "applied_identically_to_every_arm": "The same extraction runs on every arm. Stripping fences for some arms and not others is the bias this rule exists to prevent."
+    },
+    "compile_log_reading": {
+      "encoding": "The compiler writes its logs as UTF-16LE with a byte-order mark. They must be decoded before matching. Matching the raw bytes returns zero hits and exits cleanly, which silently collapses the strict metric onto the headline metric with nothing in the output saying so.",
+      "diagnostic_rule": "A diagnostic is a printed line matching `(line,col): error N:` or `(line,col): warning N:`, not the bare substring 'error' anywhere in the log.",
+      "completion_rule": "A log without the compiler's own `Result: N errors, M warnings` line is an INFRASTRUCTURE-FAILURE, never a model result. That line is the compiler's statement that a compilation ran to completion; a partial log carries zero printed diagnostics and would otherwise read as a clean compile."
+    },
+    "what_is_not_published": "The harness, the extractor and the scorer are not distributed, and neither is the compiler. These rules describe what they do at the level published here; load-bearing details below that level are not published, so an independent implementation may score individual items differently while following every published rule. A reader also cannot confirm that our published rows were produced by an implementation that follows these rules."
+  },
+  "interval_conventions": {
+    "z": 1.96,
+    "z_note": "The 95% intervals use z = 1.96 exactly, not a higher-precision normal quantile. Using 1.959963... instead shifts the endpoints in the last few decimal places, so a reader recomputing them will match only with 1.96.",
+    "rate_intervals": "Wilson score interval, applied to each arm's successes over its denominator.",
+    "difference_interval": "Newcombe's square-and-add MOVER interval for the difference between two paired proportions.",
+    "phi": "Newcombe's continuity-corrected phi-hat for the paired 2x2 table, the association term the MOVER interval needs. It is published because the interval cannot be recomputed without it. With cells e (both pass), f (first arm only), g (second arm only), h (both fail): A = e*h - f*g, n = e+f+g+h, and D = sqrt((e+f)(g+h)(e+g)(f+h)). The rule: phi is 0 when any marginal is zero, (A - n/2)/D when A > n/2, 0 when 0 <= A <= n/2, and A/D when A < 0.",
+    "mcnemar": "Exact binomial test on the discordant pairs."
+  },
+  "what_is_not_measured": {
+    "specification_adherence": "The verdict is a compiler outcome. It does not establish that the generated program implements the specification, or any part of it. A minimal Expert Advisor that compiles and does nothing scores exactly as a correct one does. This is a stronger limitation than 'compiling is not trading correctly': adherence to the prompt is not measured at all.",
+    "why_it_cannot_be_ruled_out_here": "Because the generated source is not distributed, this benchmark does not distinguish semantic implementation from compilable boilerplate.",
+    "what_would_settle_it": "Structural or functional conformance checks against each specification, or publication of the generated source so others can judge. Neither is in this release."
+  },
+  "serving_template_confound": {
+    "what_was_done": "The two local arms were served with the same prompt template, the one the tuned model was trained on: <|system|>...<|end|>\\n<|user|>...<|end|>\\n<|assistant|>. The published prompt_sha256 is identical for the two local arms on every item, so this is verifiable from the release rather than asserted.",
+    "the_confound": "That template is not the base model's native chat format. The base model ships a ChatML chat template using <|im_start|> and <|im_end|>. Serving an instruction model a format it was not tuned for can depress its output quality, so part of the measured difference could in principle reflect template mismatch rather than capability.",
+    "why_it_was_done_this_way": "Holding the prompt byte-identical across arms removes prompt wording as a variable. That choice trades one confound for another: identical inputs, but an input that suits one arm better than the other.",
+    "corroborating_observation": "The published rows show a clean split in response convention: every base row records one fenced code block and every tuned row records none. That is consistent with two models following different output conventions, and it is what the extraction rule exists to handle fairly.",
+    "template_control": "The base model was run twice over the same 184 items with identical generation settings and identical scoring, once under the shared training-format template and once under its own native ChatML template. Among the 183 items with scoreable outputs under both templates, one verdict changed: it compiled under the shared training template and failed under native ChatML. The remaining item was truncated under the shared-template condition and could not be compared. The observed difference on the 183 jointly scoreable items was one compile pass in favour of the shared template. Under the shared template the control reproduced the published base arm's two passing items.",
+    "template_control_rows": "The control's per-item rows are not distributed. They are identified by SHA-256: training-format condition c9e0a70a99f90785ed4e7f9213ad63fecd9ddbf2319c1394885ecc09b82ce866, native ChatML condition 47f8b9eed8c1e0c369af26ca9606f48a72399f9c1cfa52b29918062964c64e33.",
+    "template_control_caveats": "The control served a Q8_0 quantisation of the base model on a different inference stack than the published arms, which were served at bf16. The one-item effect is measured in that control configuration; carrying it to the published bf16 arms assumes the template effect transfers across quantisation and serving stack, and that transfer was not measured. Neither control condition is a published arm and neither replaces one. The shared-template Q8 control produced the same two passing item identities as the published base arm among the 183 jointly scoreable items. One item was truncated, so full 184-item replication is not claimed.",
+    "status": "Measured in a control configuration: one changed verdict among 183 jointly scoreable items, in the shared template's favour. Transfer to the published bf16 arms was not measured. The headline remains a difference between the two local arms as served, under one shared template."
+  },
+  "licence": {
+    "title": "CompilingThings Benchmark Evaluation Licence v1.0",
+    "notice": "Copyright \u00a9 2026 CompilingThings. All rights reserved.\n\nThe published benchmark files - prompts.jsonl, per_item_results.jsonl and serving_template.json - are made available under the CompilingThings Benchmark Evaluation Licence v1.0.\n\nYou may: run the 184 published prompts against any model; implement and use the published scoring contract; publish and compare benchmark results, including results that disagree with ours; cite the benchmark and the release identifier.\n\nYou may not: use the prompts for training, fine-tuning, continued pretraining, distillation, or reinforcement learning; incorporate the prompts or result rows into another dataset; create or sell derivative datasets; claim any right to the private training corpus; represent the benchmark as your own work; treat this grant as extending to future releases.\n\nNo rights are granted to the private training corpus, the generated MQL5 outputs, the model artifacts, the production tooling, or any unreleased material. Commercial licences, evaluation access and research collaboration are arranged individually under written agreement, and enquiries are welcome.",
+    "permitted": [
+      "run the 184 published prompts against any model",
+      "implement and use the published scoring contract",
+      "publish and compare benchmark results, including results that disagree with ours",
+      "cite the benchmark and the release identifier"
+    ],
+    "prohibited": [
+      "use the prompts for training, fine-tuning, continued pretraining, distillation, or reinforcement learning",
+      "incorporate the prompts or result rows into another dataset",
+      "create or sell derivative datasets",
+      "claim any right to the private training corpus",
+      "represent the benchmark as your own work",
+      "treat this grant as extending to future releases"
+    ],
+    "hugging_face_fields": {
+      "license": "other",
+      "license_name": "compilingthings-benchmark-evaluation-licence-v1.0",
+      "license_link": "LICENSE"
+    },
+    "published": [
+      "this dataset card (README.md)",
+      "the 184 benchmark prompts (prompts.jsonl)",
+      "the serving template and system prompt (serving_template.json)",
+      "sanitised per-item metadata for all three arms (per_item_results.jsonl)",
+      "the projection report (PROJECTION_REPORT.json)",
+      "the release metadata, including all aggregate results (publication_metadata.json)",
+      "the verification script (verify_public_release.py)",
+      "the checksum manifest (SHA256SUMS.txt)",
+      "the citation metadata (CITATION.cff)",
+      "the line-ending pin that keeps the checksums valid on checkout (.gitattributes)",
+      "the licence (LICENSE)"
+    ],
+    "not_published": [
+      "the training corpus",
+      "generated MQL5 outputs, all arms",
+      "model weights",
+      "production tooling",
+      "the item-id-to-name mapping"
+    ],
+    "note": "The grant is deliberately narrow and covers only the published benchmark files. Everything outside that list is reserved, and nothing here extends to a later release.",
+    "platform_terms_caveat": "Hosting-platform terms operate separately from this notice. They have not been read by the authors of this metadata and are deliberately not characterised here; only artifacts intended to be public are uploaded anywhere."
+  },
+  "training_corpus": {
+    "rows": 83155,
+    "sha256": "5e9881b61f3375d3d575c35950a236375eb5648f5fe55b8d18de321f69659c68",
+    "row_schema": [
+      "prompt",
+      "completion"
+    ],
+    "measured": "row count and hash computed directly from the corpus file",
+    "distributed": false,
+    "why_withheld": "The corpus is not distributed with this release. Claims that depend on it are attested, not independently reproducible from the public package."
+  },
+  "evaluation": {
+    "source_pool_records": 9168,
+    "source_pool_sha256": "2ca2d669626a44b8a0096ce25873e23d6cbf08f6887295a26179218c7e0d29cf",
+    "frozen_n": 300,
+    "frozen_seed": 42,
+    "selection_sha256": "8684badae73db0b8c69eb2f8c3d62e6b54aed64875430498485d178af3b33ff4",
+    "manifest_sha256": "2accc593805d0d480e5bd6777971bf37c540a6b2bc2527283b06efc1554bf1d5",
+    "selection_rule": "score(ea_name) = sha256(utf8(str(seed)) + b\"\\x00\" + utf8(ea_name)); order by (lowercase hex of score ASC, ea_name ASC); take first n; manifest lists them sorted by ea_name. seed is encoded as its decimal characters (--seed 42 hashes b\"42\"). No RNG.",
+    "selection_is_deterministic": "No RNG. The manifest states the full rule."
+  },
+  "decontamination": {
+    "against": "the training corpus named above, by SHA-256",
+    "methods": [
+      {
+        "name": "exact",
+        "definition": "SHA-256 equality over the UTF-8 encoding of the evaluation item's reference solution and each training row's completion field",
+        "collisions": 0
+      },
+      {
+        "name": "normalised-equivalence",
+        "definition": "SHA-256 equality after a domain normaliser is applied to both sides. Compares an evaluation item's reference solution against every training row's completion.",
+        "normaliser_source_sha256": "789bd40d55a5c38ead9c0951fbe38bf1a4aa0b06bcb2e9fdc6a17907d2486794",
+        "normaliser_source_hash_scope": "SHA-256 of the _normalize_code function source after universal-newline normalisation to LF, from the def _normalize_code line through the line immediately before the next top-level def, with no trailing newline. It is not a hash of the whole source file, and it is not a hash of the raw on-disk bytes, which carry CRLF line endings.",
+        "normaliser_substitution_count": 13,
+        "normaliser_substitution_count_meaning": "the number of regex substitution rules in the normaliser's source at the hash above, counted from that source",
+        "normalisation_steps": [
+          "strip line and block comments",
+          "canonicalise EA name string literals",
+          "canonicalise magic numbers",
+          "canonicalise timeframe constants",
+          "canonicalise applied-price enums",
+          "canonicalise indicator period arguments",
+          "canonicalise risk, stop-loss, take-profit and trailing multipliers",
+          "canonicalise instrument symbol literals",
+          "collapse all whitespace runs to a single space"
+        ],
+        "steps_are_bound_to_the_hash_above": "The step list describes the normaliser at that source hash. If the hash moves, treat the list as unverified until it is re-read.",
+        "direction_of_error": "The normaliser is deliberately aggressive: it collapses parameter variation, so two items that differ only in their parameters normalise to the same string. Removing these items therefore removes more than a strict reading requires. The clean stratum is the conservative one.",
+        "collisions": 116
+      }
+    ],
+    "frozen_n": 300,
+    "clean_n": 184,
+    "colliding_n": 116,
+    "no_similarity_cutoff": "No similarity threshold decides membership. The two methods above are the whole predicate.",
+    "reproduction_gate_passed": true,
+    "witnesses_preserved": 30,
+    "witness_cap_is_a_known_defect": {
+      "preserved": 30,
+      "collisions_found": 116,
+      "statement": "The scanner caps preserved witnesses. Every collision was counted; only a subset was preserved as a witness. The count is complete, the witness set is not."
+    }
+  },
+  "models": {
+    "base": {
+      "repo_id": "Qwen/Qwen2.5-Coder-14B-Instruct",
+      "pinned_revision": "aedcc2d42b622764e023cf882b6652e646b95671",
+      "identity_verdict": "PROVEN_AGAINST_HUGGING_FACE_AT_PINNED_REVISION",
+      "weight_dtype": "bf16",
+      "quantisation_method": "none - weights are stored at bf16 precision, not quantised",
+      "serving_quantisation": "None. The model is loaded with torch_dtype=bfloat16 and no quantisation configuration on this path. The rows' `quantisation` field records the string bf16, which names the dtype, not a quantisation method."
+    },
+    "tuned": {
+      "description": "The base above, fine-tuned on the withheld corpus, then merged to bf16 and served directly. No adapter was applied at serving time.",
+      "weights_distributed": false,
+      "identity_note": "The tuned weights are not published. The per-item rows commit to its outputs by hash; they are not a route to the model.",
+      "weight_dtype": "bf16",
+      "quantisation_method": "none - weights are stored at bf16 precision, not quantised",
+      "adapter": {
+        "adapter_model_sha256": "9cc2d9bc1b75dabca474cb49de2c6aa340ee1185ebf463322cc3341ff0769c3d",
+        "adapter_config_sha256": "f07d8621efe63994172cc86150fcfcae8bca4959899a90e505258c1334e7d8ce",
+        "epoch": 1,
+        "epoch_verdict": "PROVEN",
+        "epoch_status": "MEASURED",
+        "epoch_evidence": [
+          {
+            "requirement": "trainer_state.json epoch == N.0",
+            "literal_value": "\"epoch\": 1.0"
+          },
+          {
+            "requirement": "trainer_state.json global_step == max_steps",
+            "literal_value": "\"global_step\": 4694, \"max_steps\": 4694"
+          },
+          {
+            "requirement": "train_config num_train_epochs consistent with N",
+            "literal_value": "train_config.json \"epochs\": 1 ; trainer_state.json \"num_train_epochs\": 1"
+          }
+        ],
+        "directory_name_disclaimer": "The directory name checkpoint-4694 was not used as evidence. The three literals above were read from the file contents.",
+        "adapter_selection_note": "A second adapter from a later epoch exists and is the same size. The two are told apart by hash only; a check on the directory name would decide nothing.",
+        "lora": {
+          "r": 64,
+          "lora_alpha": 128,
+          "lora_dropout": 0.05,
+          "target_modules": [
+            "down_proj",
+            "gate_proj",
+            "k_proj",
+            "o_proj",
+            "q_proj",
+            "up_proj",
+            "v_proj"
+          ],
+          "peft_version_that_wrote_the_adapter": "0.18.1"
+        }
+      },
+      "merge": {
+        "tool": "merge_adapter.py",
+        "tool_sha256": "f426179b80cce7c1c9f63fbdc2f058e95562bad9a24e6d57fb4ded07d5ede473",
+        "tool_sha256_source": "re-derived by this generator from the copy sealed in the evidence package, then checked against the value the merge record wrote",
+        "dtype": "bfloat16",
+        "device": "cpu",
+        "base_identity_asserted_against": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "argv_note": "The verbatim argv is four absolute local paths plus the settings above. The paths are withheld; the settings are what determine the output.",
+        "started_utc": "2026-08-23T03:00:55Z",
+        "finished_utc": "2026-08-23T03:06:35Z",
+        "duration_seconds": 339.795
+      },
+      "merged_weights": {
+        "model_safetensors_sha256": "1b8ee53b697e9a600834871a595924b183f8229d6cb8850cd6ba63075ac4c66b",
+        "model_safetensors_bytes": 29540134824,
+        "dtype": "bfloat16"
+      },
+      "determinism": {
+        "verdict": "MATCH",
+        "independent_methods": [
+          "tools/merge_adapter.py internal hashing",
+          "GNU coreutils sha256sum, run separately after the merge"
+        ],
+        "environment": "The 2026-08-20 and 2026-08-23 merges ran on the same interpreter and package set: Python 3.14.0, torch 2.13.0+cpu, transformers 5.15.0, peft 0.20.0, accelerate 1.14.0, safetensors 0.8.0. Byte-identity is therefore evidence of determinism WITHIN that environment, not across environments.",
+        "what_it_establishes": "It establishes that the same base + same adapter + same tool + same package versions + same device and dtype reproduce the same bytes. It does not establish that the artifact is correct for evaluation, and it produces no score.",
+        "limitation": "Two merges run in 2026 from the same inputs in the same environment produced byte-identical weights. Neither was run at release time, and neither was run in a different environment. Cross-environment reproduction is not established."
+      },
+      "quantisation_parity_vs_base_arm": {
+        "verdict": "MATCH",
+        "target": "bf16 (bfloat16)",
+        "comparison_arm_quantisation": "bf16"
+      },
+      "served_artifact_binding": "The sealed tuned rows were bound to this merged artifact three ways: the sealed results file is byte-identical to the run directory that served it; that run's parameters name the merged model and its fingerprint, which the run's own console log prints; and the only other tuned run candidate produced no results file at all."
+    },
+    "frontier": {
+      "model_id": "gpt-5.6-sol",
+      "provider": "openai",
+      "access": "vendor chat-completions API; weights are vendor-hosted and not independently pinned by this release",
+      "identity_basis": "model identifier and evaluation date",
+      "evaluated_on": "2026-09-02",
+      "temperature": 1.0,
+      "temperature_note": "the run used temperature 1. This arm is a single run of a sampled decoder.",
+      "seed": 42,
+      "seed_note": "sent via the API's seed parameter; determinism is not guaranteed by the vendor",
+      "max_completion_tokens": 8192,
+      "generation_cap_note": "The retained run record stores the 8,192-token generation cap under the harness's generic max_new_tokens field; max_completion_tokens is the API parameter it was sent as. max_new_tokens is not the literal API parameter used for this arm.",
+      "results_rows_sha256": "354f695a34a429d9676279c2a39fbe6c47bd3280054db4c643bac51374fbb4f0",
+      "run_params_sha256": "1914a9aef38f22cf40b6fead17eae077f584a4a471a5be9b573eaa6b5cfde00b",
+      "run_params_n_note": "run_params.json records n=300, while the retained frontier results contain 184 rows matching the published clean-184 benchmark. The stale n field is not used in any reported result.",
+      "served_format": "system and user messages as separate API fields; the local serving template cannot be submitted to the API. The frontier rows' prompt_sha256 hashes the canonical system+user rendering, as defined in PROJECTION_REPORT.json."
+    },
+    "arm_field_warning": "The sealed per-item rows of the two local arms carry an internal `arm` field that reads \"A\" on both. It discriminates nothing and is withheld from the public rows, which carry an arm derived from the source directory instead. The frontier arm's sealed rows read \"C\"."
+  },
+  "headline": {
+    "stratum": "CLEAN 184 \u2014 no normalised-exact training twin",
+    "n": 184,
+    "base": {
+      "successes": 2,
+      "total": 184,
+      "rate": 0.010869565217391304,
+      "rate_pct": "1.09%",
+      "ci95": [
+        0.0029858430553776835,
+        0.0387599683090911
+      ],
+      "ci95_pct": [
+        "0.30%",
+        "3.88%"
+      ],
+      "ci_method": "wilson-score-95"
+    },
+    "tuned": {
+      "successes": 170,
+      "total": 184,
+      "rate": 0.9239130434782609,
+      "rate_pct": "92.39%",
+      "ci95": [
+        0.8763482447676944,
+        0.9541387187164326
+      ],
+      "ci95_pct": [
+        "87.63%",
+        "95.41%"
+      ],
+      "ci_method": "wilson-score-95"
+    },
+    "difference": {
+      "diff": 0.9130434782608695,
+      "numerator": "(169 - 1)/184",
+      "ci95": [
+        0.8540098171850538,
+        0.9455338107113938
+      ],
+      "phi": -0.16760440475893776,
+      "method": "newcombe-1998-square-and-add-mover-paired",
+      "diff_pp": "91.30 pp",
+      "ci95_pp": [
+        "85.40 pp",
+        "94.55 pp"
+      ]
+    },
+    "mcnemar": {
+      "b": 1,
+      "c": 169,
+      "n_discordant": 170,
+      "p_value": 2.2852138271288273e-49,
+      "method": "mcnemar-exact-binomial"
+    },
+    "contingency": {
+      "a_both_pass": 1,
+      "b_base_only": 1,
+      "c_tuned_only": 169,
+      "d_neither": 13,
+      "n": 184
+    },
+    "bootstrap": {
+      "method": "paired-item-percentile-bootstrap",
+      "seed": 20260824,
+      "resamples": 20000,
+      "n_items": 184,
+      "point_estimate": 0.9130434782608695,
+      "ci95": [
+        0.8695652173913043,
+        0.9510869565217391
+      ]
+    },
+    "denominator_rule": "The denominator is every item of the stratum that both local arms produced a scoreable row for. Measured on these rows: truncation 0, infrastructure failure 0, missing output 0 in both local arms, so the strict and inclusive denominators are identical and the headline is the same number under either reading."
+  },
+  "frontier_result": {
+    "successes": 179,
+    "total": 184,
+    "rate": 0.9728260869565217,
+    "rate_pct": "97.28%",
+    "ci95": [
+      0.937973928367375,
+      0.9883384539803052
+    ],
+    "ci95_pct": [
+      "93.80%",
+      "98.83%"
+    ],
+    "ci_method": "wilson",
+    "buckets": {
+      "truncated": 0,
+      "infrastructure_failure": 0
+    },
+    "paired_vs_tuned": {
+      "both_pass": 168,
+      "tuned_only_pass": 2,
+      "frontier_only_pass": 11,
+      "both_fail": 3,
+      "n_discordant": 13,
+      "mcnemar_p": 0.0224609375,
+      "method": "mcnemar-exact-binomial",
+      "gap_pp": "4.89 pp",
+      "reading": "The frontier arm compiled 11 items the tuned arm missed; the tuned arm compiled 2 items the frontier arm missed; 3 failed under both."
+    },
+    "derived": "every figure in this block is derived from the sealed frontier and tuned per-item rows"
+  },
+  "full_300_for_comparison": {
+    "contingency": {
+      "a_both_pass": 1,
+      "b_base_only": 1,
+      "c_tuned_only": 283,
+      "d_neither": 15,
+      "n": 300
+    },
+    "base": {
+      "successes": 2,
+      "total": 300
+    },
+    "tuned": {
+      "successes": 284,
+      "total": 300
+    },
+    "difference": 0.94,
+    "mcnemar_p": 1.8338173912479853e-83,
+    "decontamination_cost": -0.027,
+    "reading": "Decontamination moved the difference from 0.9400 to 0.9130, a change of -0.0270. The uplift is smaller on the decontaminated stratum and the direction is unchanged."
+  },
+  "public_release_contents": {
+    "per_item_rows": {
+      "rows": 552,
+      "sha256": "3584aefb4f4226e9ba9ae7453c274eebab6f30b62d0dd89a23f41202c6ec070d",
+      "distribution": "PUBLIC"
+    },
+    "fields_published": [
+      "item_id",
+      "verdict_headline",
+      "verdict_strict",
+      "bucket",
+      "ex5_exists",
+      "errors",
+      "warnings",
+      "result_line_errors",
+      "result_line_warnings",
+      "compile_infra_reason",
+      "generation_error",
+      "positive_control_errors",
+      "positive_control_warnings",
+      "truncated",
+      "finish_reason",
+      "n_fenced_blocks",
+      "used_block_index",
+      "fence_unterminated",
+      "used_block_unterminated",
+      "extractor_version",
+      "harness_version",
+      "seed",
+      "seed_applied",
+      "temperature",
+      "temperature_applied",
+      "max_new_tokens",
+      "quantisation",
+      "quantisation_mismatch",
+      "prompt_sha256_public",
+      "prompt_sha256",
+      "mq5_sha256",
+      "ex5_sha256"
+    ],
+    "fields_withheld": [
+      "adapter_path",
+      "adapter_sha256",
+      "base_model_sha256",
+      "category",
+      "compile_log_path",
+      "compile_log_raw_path",
+      "compile_log_raw_sha256",
+      "compile_log_sha256",
+      "compile_stem",
+      "ea_name",
+      "elapsed_seconds",
+      "ex5_path",
+      "generated_code_path",
+      "generated_code_sha256",
+      "manifest_selection_sha256",
+      "manifest_sha256",
+      "metaeditor_build",
+      "metaeditor_path",
+      "metaeditor_sha256",
+      "metaeditor_size_bytes",
+      "model_id",
+      "mq5_path",
+      "source_sha256",
+      "system_prompt_sha256",
+      "usage"
+    ],
+    "item_id_scheme": "Opaque. item_id is a stable public identifier used to join prompts and result rows; it carries none of the item's name.",
+    "ea_name_not_in_rows_because": "The rows key on item_id so that the row schema does not depend on the corpus's naming convention. This is a schema choice, not anonymisation: every published prompt carries a `// NAME:` line holding that item's original name, so all 184 names are recoverable from this release.",
+    "generated_mql5_source_distributed": false,
+    "prompts_distributed": true,
+    "prompts": {
+      "rows": 184,
+      "sha256": "d58391038d39b22d1865e5d874764201f65918fbf92fe837a465f58daee7cfa7",
+      "distribution": "PUBLIC"
+    },
+    "serving_template": {
+      "sha256": "979346bc6c0bfee309188be88a5f1611882344ebd44d7e9796066068cd004541",
+      "distribution": "PUBLIC"
+    }
+  },
+  "not_distributed": {
+    "item_id_to_name_mapping": 184,
+    "training_corpus_rows": 83155,
+    "generated_mql5_source": "all three arms",
+    "tuned_model_weights": true,
+    "release_under": "written agreement only"
+  },
+  "contact": {
+    "route": "Hugging Face - open a discussion on the dataset repository",
+    "for": "evaluation access, research collaboration, commercial licensing, partnership",
+    "identity": "CompilingThings"
+  },
+  "limitations": [
+    "The training corpus is not distributed. Any claim about its contents is attested by hash, not independently reproducible from this package.",
+    "The tuned model weights are not distributed.",
+    "Generated MQL5 source is not distributed for any arm. The mq5_sha256 and ex5_sha256 values are stable commitments to the withheld artifacts: they permit integrity verification if those artifacts are later disclosed under agreement. mq5_sha256 is present on every row; ex5_sha256 is present only on rows where an EX5 artifact was produced and is null on the rest, because a failed compile leaves nothing to hash. They do not let a reader check independently generated output against ours, because two models almost never emit byte-identical source.",
+    "The result rows carry an opaque item_id rather than the original item name, but the names are not hidden: every published prompt contains a `// NAME:` line, because that line was in the prompt the models were given. The naming scheme for these 184 items is therefore public. An earlier draft of this card claimed otherwise and was wrong.",
+    "The 184 prompts are now public. They should be treated as a public benchmark from this release onward, not as an uncontaminated evaluation set: once published, prompts enter crawls and downstream corpora regardless of licence. A separate private holdout is reserved for future releases.",
+    "The compile verdict comes from one compiler on one platform. It measures whether the code compiles, not whether it trades correctly or profitably.",
+    "The benchmark is a single frozen draw at seed 42 from a larger pool. It was frozen before any result was seen, and was not redrawn.",
+    "The witness set preserved for the normalised-equivalence collisions is capped and therefore incomplete; the collision count itself is complete.",
+    "Two historical merges under the same recorded environment produced byte-identical weights: same merge tool, same adapter, same 336 merge targets over 579 base tensors, and an identical model.safetensors hash. A fresh release-time or cross-environment reproduction was not performed.",
+    "One base-model authority underlies both the shard hash check and the Hub tree check, so those two are not fully independent of each other."
+  ],
+  "reproducibility": {
+    "what_a_reader_can_verify": [
+      "Run the benchmark. The 184 prompts and the serving template are published, so a third party can generate their own arm, compile it, and score it against the same items.",
+      "Both published hashes: prompt_sha256_public is sha256 of the prompt as published, and prompt_sha256 is arm-specific - the rendered serving template on local-arm rows, the canonical system+user rendering on frontier rows. verify_public_release.py recomputes both under each arm's rule.",
+      "All three rates, both paired tables, both McNemar p-values and every confidence interval except the bootstrap recompute from the published per-item rows alone.",
+      "The frozen selection rule is fully stated and deterministic, so anyone holding a pool with the stated source hash can recompute which items were drawn."
+    ],
+    "what_a_reader_cannot_do": [
+      "Inspect the generated MQL5 for any arm.",
+      "Recompute the decontamination counts, which are measured against a corpus that is not distributed.",
+      "Reproduce our tuned arm, whose weights are not distributed. A reader can run their own model against the same items and compare.",
+      "Confirm any per-item verdict against the artifact that produced it. The generated MQL5 and the compiler logs are not distributed, so the rows are an attestation and the statistics computed from them are not."
+    ],
+    "scope_summary": "The public files support new evaluations on the 184 prompts. The corpus, generated source, tuned weights, and original harness are withheld."
+  },
+  "checksum_manifest": {
+    "file": "SHA256SUMS.txt",
+    "files_listed": 10,
+    "files_present": 11,
+    "reconciliation": "every file except SHA256SUMS.txt, which cannot list itself"
+  }
+}

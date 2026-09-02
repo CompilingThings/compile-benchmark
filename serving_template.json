@@ -1,0 +1,11 @@
+{
+  "system_prompt": "You are an expert MQL5 programmer. Write the complete MQL5 Expert Advisor code that implements the given specification exactly.",
+  "system_prompt_sha256": "820208ddccc935fe44222db63416e192f605183e1b77c8e833de0d8aa94c6377",
+  "template": "<|system|>{system_prompt}<|end|>\n<|user|>{prompt}<|end|>\n<|assistant|>",
+  "note": "This template applies to the two local arms (base and tuned) only; the frontier arm was not served with it. On local-arm rows prompt_sha256 is sha256 of the UTF-8 encoding of the rendered string; frontier rows follow the system+user rule in PROJECTION_REPORT.json hash_definitions. prompt_sha256_public is sha256 of the UTF-8 encoding of the prompt alone, exactly as published in prompts.jsonl.",
+  "worked_example": {
+    "item_id": "item_001",
+    "prompt_sha256_public": "8002a63c52279e6c92f85b146dc099375fa382f06b02f93c9cc424ecf64e605a",
+    "prompt_sha256": "02ad9e31a9c46835c8f1e1d1edf7caa1e85f1537eb5e3d98f393a6ff9718147f"
+  }
+}
