@@ -1,3 +1,4 @@
 # The manifest hashes these files by byte. Pin the line endings to the tree so a
 # checkout cannot rewrite them and break every hash in SHA256SUMS.txt.
 * text eol=lf
+corpus_row_hashes.json filter=lfs diff=lfs merge=lfs -text
