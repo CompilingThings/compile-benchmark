@@ -4,7 +4,9 @@ CompilingThings Benchmark Evaluation Licence v1.0
 Copyright © 2026 CompilingThings. All rights reserved.
 
 SCOPE. The grant below covers the published benchmark files: prompts.jsonl,
-per_item_results.jsonl and serving_template.json.
+per_item_results.jsonl, serving_template.json, holdout_ea300_results.jsonl,
+holdout_nonea200_results.jsonl, bridge_q8_184_results.jsonl and
+corpus_row_hashes.json.
 
 The remaining files in this release - README.md, publication_metadata.json,
 PROJECTION_REPORT.json, verify_public_release.py, SHA256SUMS.txt, CITATION.cff,
@@ -19,6 +21,8 @@ Nothing here grants any right to material that is not in this release.
 
 YOU MAY:
   - run the 184 published prompts against any model.
+  - check, cite and compare the published result rows and the corpus row-hash
+    manifest, including the holdout row files, whose prompts are not published.
   - implement and use the published scoring contract.
   - publish and compare benchmark results, including results that disagree with ours.
   - cite the benchmark and the release identifier.
@@ -39,9 +43,6 @@ releases or later versions of this benchmark.
 Commercial licences, evaluation access, research collaboration and partnership
 are arranged individually under written agreement. Enquiries are welcome via a
 discussion on the Hugging Face repository.
-
-Hosting-platform terms operate separately from this licence and may grant
-platform users rights this licence does not.
 
 METAQUOTES NOTICE
 -----------------

@@ -1,8 +1,11 @@
 {
-  "generated_from_evidence_manifest_sha256": "a3ecb53728523005648b995871b8389f40cfa997a45b7f58935e9cecc335b936",
-  "generated_from_evidence_manifest_note": "sha256 of the retained evidence package's checksum manifest file, the same value publication_metadata.json publishes as evidence_manifest_sha256. The evidence remains private; the hash is a commitment, not a means of independent verification.",
+  "generated_from_evidence_manifest_sha256": "4c5328b7ebf2e6f9a037ad0ad09f756c16c794bf2006c465a28ab394c4ee91d4",
+  "generated_from_evidence_manifest_public_half_sha256": "e2a1e2507c6909f7159848d940f54c6be8c4c703621058e346a75582974a3eb1",
+  "carried_from_v1_0_0_evidence_manifest_sha256": "a3ecb53728523005648b995871b8389f40cfa997a45b7f58935e9cecc335b936",
+  "generated_from_evidence_manifest_note": "Each value is the sha256 of the bytes of a retained evidence package's checksum manifest file, and the three are the same three publication_metadata.json publishes as evidence_manifest_v1_1_0_sha256, evidence_manifest_v1_1_0_public_half_sha256 and evidence_manifest_v1_0_0_sha256. Everything this document describes that is new in 1.1.0 was generated from the 1.1.0 package; the 1.0.0 rows and counts it carries forward came from the 1.0.0 package, which is why that hash is still here under its own name. The full-package manifest is not distributed, because it lists the filenames of private holdout material. The evidence remains private; these hashes are commitments, not a means of independent verification.",
   "membership_source_sha256": "9f1a271e664f895d02afea0113ca03db16fdf991dfac2f9386ab95263f624c50",
   "membership_source_note": "sha256 of the sealed point-estimate record the clean-184 membership was read from; the record itself is not distributed",
+  "counts_scope": "n_items, n_public_rows and rows_per_arm below describe per_item_results.jsonl, the 1.0.0 public set. Every row file added in 1.1.0 carries its own item count, row count and per-arm rows under v1_1_row_files.",
   "n_items": 184,
   "n_public_rows": 552,
   "rows_per_arm": {
@@ -103,7 +106,7 @@
       "distribution": "PUBLIC"
     },
     "serving_template.json": {
-      "sha256": "979346bc6c0bfee309188be88a5f1611882344ebd44d7e9796066068cd004541",
+      "sha256": "3601f3ff49381282ee7e3f83e21db9f9e3891910e4092c9461a2a798c9b14756",
       "distribution": "PUBLIC"
     }
   },
@@ -112,6 +115,218 @@
       "rows": 184,
       "sha256": "30e9853232c8239e06206e2e9357b57fd9a6482db9583a775d550b134a031164",
       "distribution": "PRIVATE - not distributed; written agreement only"
+    }
+  },
+  "v1_1_row_files": {
+    "holdout_ea300_results.jsonl": {
+      "n_items": 300,
+      "rows": 1200,
+      "sha256": "2814f69247f09f3efdd941ed6013aa0a638d3a2eb16b63c9d90113fb6be23dd9",
+      "arms": {
+        "base": {
+          "rows": 300,
+          "source_extract_sha256": "dd0b406b94427c4a1e54ba4ca0ad181220519cc5e6e1dbfcb60c79928fbdbe82"
+        },
+        "tuned83k": {
+          "rows": 300,
+          "source_extract_sha256": "5ebc111138f12088648ffc428e5abe881774b0734e5b3f67c3efd1e6f7a59d9f"
+        },
+        "tuned220k": {
+          "rows": 300,
+          "source_extract_sha256": "b16d7ae1c00f12832f77972775d23543c07893dcb875a0a9e24ffb9eb253d5fd"
+        },
+        "frontier": {
+          "rows": 300,
+          "source_extract_sha256": "e980c957ae9eb74f80618684d1cc4dd3cd62f7f324a055c12e95774f19f8b43e"
+        }
+      },
+      "item_identity": "item_sha256",
+      "distribution": "PUBLIC"
+    },
+    "holdout_nonea200_results.jsonl": {
+      "n_items": 200,
+      "rows": 800,
+      "sha256": "13c9812df5c390a024d2385c7a6f127124cef061c79baaae36e1b635af593a7a",
+      "arms": {
+        "base": {
+          "rows": 200,
+          "source_extract_sha256": "3d6960ddad752264dbeefc8b0abbdfb5d404b176f9ee6c541d1633c58fb019e8"
+        },
+        "tuned83k": {
+          "rows": 200,
+          "source_extract_sha256": "ed3835bc64896540059f161c09ceaf3359fd0e26a58890b675154d59dff76b4a"
+        },
+        "tuned220k": {
+          "rows": 200,
+          "source_extract_sha256": "53a2779afa1636a507e017cfa3c58f400d4f21b9fa6b2df9cc24d562971187f6"
+        },
+        "tuned220k_q8_replay": {
+          "rows": 200,
+          "source_extract_sha256": "010489a93192aa19a17bc56950c14ba829c6e14c2395bd73daad8062c775075d"
+        }
+      },
+      "item_identity": "item_sha256",
+      "distribution": "PUBLIC"
+    },
+    "bridge_q8_184_results.jsonl": {
+      "n_items": 184,
+      "rows": 552,
+      "sha256": "8ecdaa25fa270968498634d0b5c20fbb3517433bd6ec25f358dbee78d6a73b44",
+      "arms": {
+        "base": {
+          "rows": 184,
+          "source_results_sha256": "54b535ca7314614b038b595d681c152c44949394c52e42f4e92c8b693fabb1e7"
+        },
+        "tuned83k": {
+          "rows": 184,
+          "source_results_sha256": "22a35881e187c289bf4025192b149e24c4d735508cf2d12c1ada9b148523221b"
+        },
+        "tuned220k": {
+          "rows": 184,
+          "source_results_sha256": "edb00e9a8f0f4717d67752d97e677067206a64bde0c841f6b0ffde08f6b0f687"
+        }
+      },
+      "item_identity": "item_id",
+      "distribution": "PUBLIC"
+    },
+    "corpus_row_hashes.json": {
+      "row_hashes": 219867,
+      "sha256": "4dbabd017b4c50f803a83ec981c99b53b9a2b2247ed1000bde4f571f21e1bcfd",
+      "distribution": "PUBLIC"
+    }
+  },
+  "holdout_allow_listed_fields": [
+    "arm",
+    "item_sha256",
+    "prompt_sha256",
+    "category",
+    "verdict_headline",
+    "verdict_strict",
+    "bucket",
+    "errors",
+    "warnings",
+    "truncated",
+    "finish_reason",
+    "mq5_sha256",
+    "ex5_exists",
+    "ex5_sha256"
+  ],
+  "holdout_withheld_fields": [
+    "adapter_path",
+    "adapter_sha256",
+    "base_model_sha256",
+    "compile_infra_reason",
+    "compile_log_path",
+    "compile_log_raw_path",
+    "compile_log_raw_sha256",
+    "compile_log_sha256",
+    "compile_stem",
+    "ea_name",
+    "elapsed_seconds",
+    "ex5_path",
+    "extractor_version",
+    "fence_unterminated",
+    "generated_code_path",
+    "generated_code_sha256",
+    "generation_error",
+    "harness_version",
+    "manifest_selection_sha256",
+    "manifest_sha256",
+    "max_new_tokens",
+    "metaeditor_build",
+    "metaeditor_path",
+    "metaeditor_sha256",
+    "metaeditor_size_bytes",
+    "model_id",
+    "mq5_path",
+    "n_fenced_blocks",
+    "positive_control_errors",
+    "positive_control_warnings",
+    "quantisation",
+    "quantisation_mismatch",
+    "result_line_errors",
+    "result_line_warnings",
+    "seed",
+    "seed_applied",
+    "source_sha256",
+    "system_instruction",
+    "system_instruction_sha256",
+    "system_prompt_sha256",
+    "temperature",
+    "temperature_applied",
+    "usage",
+    "used_block_index",
+    "used_block_unterminated"
+  ],
+  "holdout_withheld_fields_scope": "Measured, not curated: every key present on any sealed row of the eight arms behind the two holdout files, less the fourteen this release publishes. The sealed `arm` field is withheld too and is not in the list, because the published `arm` is derived from the source extract and the two are different fields - see PROJECTION_REPORT.json arm_derivation_v1_1. The prompt text itself is not a row field in any of them and is withheld with the item names.",
+  "bridge_allow_listed_fields": [
+    "arm",
+    "item_id",
+    "prompt_sha256_public",
+    "verdict_headline",
+    "verdict_strict",
+    "bucket",
+    "ex5_exists",
+    "errors",
+    "warnings",
+    "result_line_errors",
+    "result_line_warnings",
+    "compile_infra_reason",
+    "generation_error",
+    "positive_control_errors",
+    "positive_control_warnings",
+    "truncated",
+    "finish_reason",
+    "n_fenced_blocks",
+    "used_block_index",
+    "fence_unterminated",
+    "used_block_unterminated",
+    "extractor_version",
+    "harness_version",
+    "seed",
+    "seed_applied",
+    "temperature",
+    "temperature_applied",
+    "max_new_tokens",
+    "quantisation",
+    "quantisation_mismatch",
+    "prompt_sha256",
+    "mq5_sha256",
+    "ex5_sha256"
+  ],
+  "arm_derivation_v1_1": "From the source extract, exactly as the 1.0.0 rows derived it from the source directory. The sealed rows' own `arm` field reads \"B\" on every local arm of this release and \"C\" on the frontier arm, so it discriminates the four arms of a holdout file not at all and is withheld.",
+  "arm_values": {
+    "holdout_ea300_results.jsonl": [
+      "base",
+      "tuned83k",
+      "tuned220k",
+      "frontier"
+    ],
+    "holdout_nonea200_results.jsonl": [
+      "base",
+      "tuned83k",
+      "tuned220k",
+      "tuned220k_q8_replay"
+    ],
+    "bridge_q8_184_results.jsonl": [
+      "base",
+      "tuned83k",
+      "tuned220k"
+    ]
+  },
+  "category_field_note": "On the non-EA holdout `category` is the item's class: include, indicator, script or service, 50 items each. On the EA holdout it is the empty string, which is the value the harness carries for an EA item and which selects the EA system prompt. The value is published as the source wrote it; it is not normalised to the string \"EA\".",
+  "bridge_item_id_derivation": "The bridge rows key on item_id so they join to prompts.jsonl and to per_item_results.jsonl. The mapping was made from the public files alone: the sealed row's spec_sha256 equals prompt_sha256_public, which the 1.0.0 rows already bind to an item_id. All 184 joined; no private id-to-name mapping was read.",
+  "hash_definitions_v1_1": {
+    "item_sha256": "The SHA-256 of the UTF-8 encoding of the item's specification text. It is the only item identity on a holdout row: the text itself is not published, so the hash is a commitment that binds the four arms' rows to one item and to a retained artifact, not a route to the item.",
+    "prompt_sha256": "Local rows: the SHA-256 of the UTF-8 encoding of the rendered serving template. Frontier rows: the SHA-256 of the system prompt, two newlines, then the prompt. On holdout rows neither is reproducible from this release, because the prompt is not published.",
+    "prompt_sha256_public": "Unchanged from 1.0.0 and carried on the bridge rows, where it does recompute: the 184 prompts are published."
+  },
+  "scoring_rule_the_verifier_enforces": "A pass is verdict_headline true AND truncated false. One row in the release compiled despite being truncated, so the two counts differ by one on that arm; the pre-registered rule scores it as a fail. The protocol that rule is registered in is identified, by name and SHA-256, under `protocol` in publication_metadata.json.",
+  "outputs_v1_1_changed": {
+    "serving_template.json": {
+      "sha256": "3601f3ff49381282ee7e3f83e21db9f9e3891910e4092c9461a2a798c9b14756",
+      "what_changed": "the four non-EA system instructions were added. The EA system prompt, its hash, the template and the worked example are byte-identical to 1.0.0.",
+      "supersedes_sha256": "979346bc6c0bfee309188be88a5f1611882344ebd44d7e9796066068cd004541"
     }
   }
 }

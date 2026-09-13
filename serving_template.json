@@ -2,10 +2,17 @@
   "system_prompt": "You are an expert MQL5 programmer. Write the complete MQL5 Expert Advisor code that implements the given specification exactly.",
   "system_prompt_sha256": "820208ddccc935fe44222db63416e192f605183e1b77c8e833de0d8aa94c6377",
   "template": "<|system|>{system_prompt}<|end|>\n<|user|>{prompt}<|end|>\n<|assistant|>",
-  "note": "This template applies to the two local arms (base and tuned) only; the frontier arm was not served with it. On local-arm rows prompt_sha256 is sha256 of the UTF-8 encoding of the rendered string; frontier rows follow the system+user rule in PROJECTION_REPORT.json hash_definitions. prompt_sha256_public is sha256 of the UTF-8 encoding of the prompt alone, exactly as published in prompts.jsonl.",
+  "note": "This template applies to the three local arms (base, tuned 83k, tuned 220k) on every set; the frontier arm was not served with it. The four non-EA system instructions are in this file, under system_prompt_by_category. On local-arm rows prompt_sha256 is sha256 of the UTF-8 encoding of the rendered string; frontier rows follow the system+user rule in PROJECTION_REPORT.json hash_definitions. prompt_sha256_public is sha256 of the UTF-8 encoding of the prompt alone, exactly as published in prompts.jsonl.",
   "worked_example": {
     "item_id": "item_001",
     "prompt_sha256_public": "8002a63c52279e6c92f85b146dc099375fa382f06b02f93c9cc424ecf64e605a",
     "prompt_sha256": "02ad9e31a9c46835c8f1e1d1edf7caa1e85f1537eb5e3d98f393a6ff9718147f"
-  }
+  },
+  "system_prompt_by_category": {
+    "include": "You are an expert MQL5 programmer. Write the complete MQL5 include file code that implements the given specification exactly.",
+    "indicator": "You are an expert MQL5 programmer. Write the complete MQL5 custom indicator code that implements the given specification exactly.",
+    "script": "You are an expert MQL5 programmer. Write the complete MQL5 script code that implements the given specification exactly.",
+    "service": "You are an expert MQL5 programmer. Write the complete MQL5 service code that implements the given specification exactly."
+  },
+  "system_prompt_by_category_note": "The instruction an item is sent is chosen by the category recorded for it, which is not the same thing as the artifact type its specification declares. The 184 public prompts, the 300 EA holdout and every 1.0.0 arm are sent the system_prompt above, unchanged - including the six of the 184 whose own specifications declare script, indicator or include, which were neither re-instructed nor excluded; publication_metadata.json lists those six under public_set_184_composition. The four strings here are sent to the non-EA holdout's include, indicator, script and service items respectively. There is no fallback: an item of any other category stops the run before a generation is paid for. The non-EA prompts themselves are not published, so these strings are the whole of what a reader needs to reproduce the non-EA request framing."
 }

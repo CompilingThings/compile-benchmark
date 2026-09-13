@@ -22,7 +22,18 @@ Checks:
      local-arm row
   7  every SHA-256 quoted in the card is one the release stands behind
   8  every checksum-manifest entry recomputes from the shipped files
+  9  the three v1.1 row files carry the row count, the arm ids and the per-arm row
+     counts the card publishes
+ 10  every published headline count falls out of the rows under the pre-registered
+     scoring rule: a pass is verdict_headline true AND truncated false
+ 11  every published per-arm truncation count falls out of the rows
+ 12  the arms of a row file cover one and the same item set, once each
+ 13  corpus_row_hashes.json carries 219,867 row hashes and agrees with its own count
   D  diagnostic: do the sealed spec_sha256 / prompt_sha256 reproduce from the prompt?
+
+Checks 9 to 13 need nothing but the published files. They run on the holdout rows even
+though the holdout prompts are private: the arithmetic of an attested result is still
+arithmetic, and it is the only thing about the holdouts a reader can check.
 
 Checks 1 and 2 need the evaluation pool, the frozen manifest and the id-to-name mapping.
 None of those is distributed, so for a public reader they report SKIPPED and the run
@@ -65,6 +76,49 @@ EXPECTED = {"n": 184, "base": 2, "tuned": 170, "a": 1, "b": 1, "c": 169, "d": 13
 EXPECTED_FRONTIER = {"n": 184, "frontier": 179,
                      "both_pass": 168, "tuned_only": 2,
                      "frontier_only": 11, "both_fail": 3}
+
+CORPUS_NAME = "corpus_row_hashes.json"
+EXPECTED_CORPUS_ROWS = 219867
+
+# Every count the card publishes for the v1.1 row files, keyed by file and arm.
+# `passes` is the headline figure under the pre-registered rule below; it is NOT a
+# count of rows whose verdict_headline is true. On the 220k arm of the non-EA holdout
+# the two differ by one - a row compiled despite being truncated - and that single
+# item is why the rule is stated here rather than assumed.
+EXPECTED_ROW_FILES = {
+    "holdout_ea300_results.jsonl": {
+        "rows": 1200, "items": 300, "item_key": "item_sha256",
+        "arms": {
+            "base": {"rows": 300, "passes": 1, "truncated": 3},
+            "tuned83k": {"rows": 300, "passes": 281, "truncated": 0},
+            "tuned220k": {"rows": 300, "passes": 282, "truncated": 0},
+            "frontier": {"rows": 300, "passes": 286, "truncated": 4},
+        },
+    },
+    "holdout_nonea200_results.jsonl": {
+        "rows": 800, "items": 200, "item_key": "item_sha256",
+        "arms": {
+            "base": {"rows": 200, "passes": 56, "truncated": 14},
+            "tuned83k": {"rows": 200, "passes": 135, "truncated": 13},
+            "tuned220k": {"rows": 200, "passes": 168, "truncated": 12},
+            "tuned220k_q8_replay": {"rows": 200, "passes": 169, "truncated": 11},
+        },
+    },
+    "bridge_q8_184_results.jsonl": {
+        "rows": 552, "items": 184, "item_key": "item_id",
+        "arms": {
+            "base": {"rows": 184, "passes": 2, "truncated": 2},
+            "tuned83k": {"rows": 184, "passes": 175, "truncated": 0},
+            "tuned220k": {"rows": 184, "passes": 169, "truncated": 0},
+        },
+    },
+}
+
+
+def scored_pass(row: dict) -> bool:
+    """The pre-registered scoring rule, and the whole of it: a generation cut off at
+    the token ceiling counts as a fail even if what it produced happened to compile."""
+    return row.get("verdict_headline") is True and row.get("truncated") is not True
 
 
 def format_api_prompt(system: str, spec: str) -> str:
@@ -431,6 +485,99 @@ def main(argv: list[str]) -> int:
     else:
         # Same rule as check 7: a copy with no manifest is unverifiable, not verified.
         failures.append(f"[8] cannot run: {MANIFEST_NAME} is missing")
+
+    # ---- checks 9-12 -------------------------------------------------------------
+    # The v1.1 row files. These ship, so a missing one is a failure and never a skip:
+    # the card's headline tables are computed from them and a reader who cannot find
+    # them cannot check a single holdout number.
+    loaded: dict[str, list[dict]] = {}
+    for fname in EXPECTED_ROW_FILES:
+        path = args.public / fname
+        if path.is_file():
+            loaded[fname] = list(read_jsonl(path))
+        else:
+            failures.append(f"[9] {fname} is missing from the public release")
+
+    shape_bad, pass_bad, trunc_bad, pair_bad = [], [], [], []
+    for fname, want in EXPECTED_ROW_FILES.items():
+        rows = loaded.get(fname)
+        if rows is None:
+            continue
+        key = want["item_key"]
+        by_arm: dict[str, list[dict]] = defaultdict(list)
+        for r in rows:
+            by_arm[r.get("arm")].append(r)
+
+        if len(rows) != want["rows"]:
+            shape_bad.append(f"{fname}: {len(rows)} rows, expected {want['rows']}")
+        if sorted(by_arm) != sorted(want["arms"]):
+            shape_bad.append(f"{fname}: arm ids {sorted(by_arm)}, expected "
+                             f"{sorted(want['arms'])}")
+        for arm, cell in want["arms"].items():
+            got_rows = by_arm.get(arm, [])
+            if len(got_rows) != cell["rows"]:
+                shape_bad.append(f"{fname}/{arm}: {len(got_rows)} rows, expected "
+                                 f"{cell['rows']}")
+                continue
+            got_pass = sum(1 for r in got_rows if scored_pass(r))
+            if got_pass != cell["passes"]:
+                pass_bad.append(f"{fname}/{arm}: {got_pass}/{len(got_rows)} passes, "
+                                f"expected {cell['passes']}")
+            got_trunc = sum(1 for r in got_rows if r.get("truncated") is True)
+            if got_trunc != cell["truncated"]:
+                trunc_bad.append(f"{fname}/{arm}: {got_trunc} truncated, expected "
+                                 f"{cell['truncated']}")
+
+        # One item set, once per arm. A duplicate key inside an arm and a key present
+        # in one arm but not another are different faults, so both are named.
+        reference = None
+        for arm in sorted(want["arms"]):
+            keys = [r.get(key) for r in by_arm.get(arm, [])]
+            unique = set(keys)
+            if len(unique) != len(keys):
+                pair_bad.append(f"{fname}/{arm}: {len(keys) - len(unique)} duplicate "
+                                f"{key} value(s)")
+            if len(unique) != want["items"]:
+                pair_bad.append(f"{fname}/{arm}: {len(unique)} distinct {key}, "
+                                f"expected {want['items']}")
+            if reference is None:
+                reference = unique
+            elif unique != reference:
+                pair_bad.append(f"{fname}/{arm}: its {key} set differs from the first "
+                                f"arm's by {len(unique ^ reference)} value(s)")
+
+    for tag, label, problems in (
+            (9, "row counts and arm ids", shape_bad),
+            (10, "headline counts under the pre-registered scoring rule", pass_bad),
+            (11, "per-arm truncation counts", trunc_bad),
+            (12, "item pairing across arms", pair_bad)):
+        if problems:
+            failures.append(f"[{tag}] {label} do not reproduce: {problems[:3]}")
+        elif loaded:
+            print(f"  [{tag}] {label} reproduce for all {len(loaded)} v1.1 row files")
+
+    # ---- check 13 ----------------------------------------------------------------
+    corpus_path = args.public / CORPUS_NAME
+    if not corpus_path.is_file():
+        failures.append(f"[13] {CORPUS_NAME} is missing from the public release")
+    else:
+        corpus = json.loads(corpus_path.read_text(encoding="utf-8"))
+        entries = corpus.get("row_content_hashes", [])
+        declared = corpus.get("counts", {}).get("final")
+        malformed = sum(1 for e in entries
+                        if not re.fullmatch(r"[0-9a-f]{64}", str(e.get("sha256", ""))))
+        if len(entries) != EXPECTED_CORPUS_ROWS:
+            failures.append(f"[13] {CORPUS_NAME} carries {len(entries)} row hashes, "
+                            f"expected {EXPECTED_CORPUS_ROWS}")
+        elif declared != EXPECTED_CORPUS_ROWS:
+            failures.append(f"[13] {CORPUS_NAME} declares counts.final {declared}, "
+                            f"expected {EXPECTED_CORPUS_ROWS}")
+        elif malformed:
+            failures.append(f"[13] {CORPUS_NAME}: {malformed} entr(ies) do not carry a "
+                            f"64-hex sha256")
+        else:
+            print(f"  [13] {CORPUS_NAME} carries {len(entries)} row hashes and agrees "
+                  f"with its own counts.final")
 
     # ---- diagnostic --------------------------------------------------------------
     if args.sealed_rows and args.sealed_rows.is_file():

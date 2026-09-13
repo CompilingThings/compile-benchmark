@@ -4,17 +4,20 @@ title: CompilingThings Compile Benchmark for MQL5®
 type: dataset
 authors:
   - name: CompilingThings
-version: 1.0.0
-date-released: 2026-09-02
+version: 1.1.0
+date-released: 2026-09-12
 identifiers:
   - type: other
-    value: CompilingThings/compile-benchmark-v1.0.0
+    value: CompilingThings/compile-benchmark-v1.1.0
     description: Release identifier.
 abstract: >-
-  A paired three-arm benchmark of whether generated MQL5® source compiles. It
-  publishes 184 prompts, the serving template and the system prompt, and
-  per-item results for a base model, a fine-tuned model and a frontier model
-  over the same items.
+  A paired benchmark of whether generated MQL5® source compiles. Version 1.1.0
+  carries the 184 public prompts and their 1.0.0 per-item results unchanged.
+  It adds hash-keyed per-item results on two private held-out sets: 300 Expert
+  Advisor prompts run on four arms, and 200 non-EA prompts run on three local
+  arms plus a stability re-run. It also adds a Q8_0 bridge re-run of the 184
+  public prompts, the serving template and system prompts, and a corpus
+  row-hash manifest.
   Released under the CompilingThings Benchmark Evaluation Licence v1.0; see the LICENSE file for terms.
   MQL5® and MetaTrader 5® are registered trademarks of MetaQuotes Ltd.
   CompilingThings is an independent project. No affiliation, sponsorship, certification, endorsement, or approval by MetaQuotes Ltd. is claimed.
